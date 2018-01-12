@@ -1,0 +1,23 @@
+{
+  "name": "bamazon",
+  "version": "1.0.0",
+  "description": "Command Line inventory tracking and pulling system",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ackermax/bamazon.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ackermax/bamazon/issues"
+  },
+  "homepage": "https://github.com/ackermax/bamazon#readme",
+  "dependencies": {
+    "console.table": "^0.9.1",
+    "mysql": "^2.15.0"
+  }
+}
