@@ -14,7 +14,7 @@ CREATE TABLE products
     price DECIMAL
     (11,2) NULL,
     stock_quantity INT,
-    product_sales DECIMAL (11, 2),
+    product_sales DECIMAL(11, 2) DEFAULT 0 NOT NULL,
     PRIMARY KEY
     (item_id)
 );

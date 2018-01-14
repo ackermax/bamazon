@@ -110,7 +110,7 @@ function addInventory() {
 function addProduct() {
     //first we grab our product departments and store them in an array
     var departmentArray = [];
-    connection.query("SELECT department_name FROM products GROUP BY department_name", function (err, res) {
+    connection.query("SELECT department_name FROM departments GROUP BY department_name", function (err, res) {
         if (err) throw err;
         for (var i = 0; i < res.length; i++) {
             departmentArray.push(res[i].department_name);
