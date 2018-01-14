@@ -7,7 +7,7 @@ var inquirer = require("inquirer");
 var connection = mysql.createConnection({
     host: 'localhost',
     port: 3306,
-
+    multipleStatements: true,
     user: 'root',
     password: 'epcot',
     database: 'bamazon'
@@ -18,9 +18,9 @@ function custStart() {
     //connect to bamazon database
     connection.connect();
     //grab our products table and display it with console.table
-    connection.query("SELECT * FROM products", function (err, res) {
+    connection.query("CREATE TEMPORARY TABLE temp_products SELECT * FROM products; ALTER TABLE temp_products DROP product_sales; SELECT * FROM temp_products;", function (err, res) {
         if (err) throw err;
-        console.table(res);
+        console.table(res[2]);
         buyProduct();
     });
 };
@@ -60,7 +60,7 @@ function buyProduct() {
                     else {
                         console.log("Subtracting " + buying + " from our stock and adding it to your cart.");
                         console.log("Your total for these " + buying + " items comes to $" + (buying * price) + ".");
-                        connection.query("UPDATE products SET stock_quantity = stock_quantity - ? WHERE item_id = ?", [buying, prodId], function (err, res) {
+                        connection.query("UPDATE products SET stock_quantity = stock_quantity - ?, product_sales = product_sales + ? WHERE item_id = ?", [buying, buying * price ,prodId], function (err, res) {
                             if (err) throw err;
                             console.log("Your purchase has been logged. Thank you for shopping at Bamazon!");
                             connection.end();
