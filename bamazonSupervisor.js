@@ -48,7 +48,23 @@ function viewSales() {
 };
 
 function createDept() {
-
+    inquirer.prompt([
+        {
+            message: "What would you like to call this new department?",
+            name: "name"
+        },
+        {
+            message: "What is the overhead cost of this new department?",
+            name: "overhead"
+        }
+    ]).then(function(ans){
+        console.log("Creating the " + ans.name + " department now.");
+        connection.query("INSERT INTO departments (department_name, over_head_costs) VALUES (?,?)", [ans.name, ans.overhead], function(err, res){
+            if (err) throw err;
+            console.log(ans.name + " sucessfully added!");
+            mainMenu();
+        })
+    });
 };
 
 //connect and launch our mainMenu function
