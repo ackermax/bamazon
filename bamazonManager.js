@@ -103,12 +103,51 @@ function addInventory() {
             addInventory();
         }
     });
-}
+};
 
 
 //addProduct function
 function addProduct() {
-
+    //first we grab our product departments and store them in an array
+    var departmentArray = [];
+    connection.query("SELECT department_name FROM products GROUP BY department_name", function (err, res) {
+        if (err) throw err;
+        for (var i = 0; i < res.length; i++) {
+            departmentArray.push(res[i].department_name);
+        }
+    });
+    //we ask questions on what Mr. Manager wants to add.
+    inquirer.prompt([
+        {
+            message: "What product would you like to add?",
+            name: "name"
+        },
+        {
+            message: "How much will this item cost?",
+            name: "price"
+        },
+        {
+            type: "list",
+            choices: departmentArray,
+            message: "What department will this item be listed in?",
+            name: "dept"
+        },
+        {
+            message: "How much initial stock will this item have?",
+            name: "stock"
+        }
+    ]).then(function (ans) {
+        var name = ans.name;
+        var price = Number(ans.price);
+        var dept = ans.dept;
+        var stock = Number(ans.stock);
+        connection.query("INSERT INTO products (product_name, department_name, price, stock_quantity) VALUES (?,?,?,?)",
+        [name, dept, price, stock],
+        function (err, res) {
+            console.log(name + " has been added to the storefront!");
+            mainMenu();
+        });
+    });
 };
 
 //start by running mainMenu and connecting to database
